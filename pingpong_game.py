@@ -42,6 +42,8 @@ game = True
 FPS = 60
 clock = time.Clock()
 
+speed_x = 3
+speed_y = 5
 
 while game:
     for e in event.get():
@@ -60,6 +62,19 @@ while game:
 
     ball.reset()
     ball.update()
+
+    # Bola bergerak horizontal karena 2 program ini yang bekerja secara bersamaan
+    ball.rect.x += speed_x
+    ball.rect.y += speed_y
+
+    # Bola ketika terkena dinding maka akan memantul
+    if ball.rect.y > height - 10 or ball.rect.y < 0:
+        speed_y *= -1
+
+    # Bola mantul pas kena raket
+    if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
+        speed_x *= -1
+        speed_y *= -1
 
 
     display.update()
