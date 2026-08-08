@@ -19,8 +19,23 @@ class GameSprite(sprite.Sprite):
     def reset(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-racket1 = GameSprite('racket.png', 30, 200, 4, 50, 150)
-racket2 = GameSprite('racket.png', 520, 200, 4, 50, 150)
+class Racket(GameSprite):
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < height - 10:
+            self.rect.y += self.speed
+
+    def update_r(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < height - 10:
+            self.rect.y += self.speed
+
+racket1 = Racket('racket.png', 30, 200, 4, 50, 150)
+racket2 = Racket('racket.png', 520, 200, 4, 50, 150)
 ball = GameSprite('tenis_ball.png', 200, 200, 4, 50, 50)
 
 game = True
@@ -33,11 +48,15 @@ while game:
         if e.type == QUIT:
             game = False
 
+    window.fill(background_color)
+
     racket1.reset()
     racket1.update()
+    racket1.update_l()
 
     racket2.reset()
     racket2.update()
+    racket2.update_r()
 
     ball.reset()
     ball.update()
